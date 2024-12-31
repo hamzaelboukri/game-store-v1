@@ -1,7 +1,4 @@
 
-
-
-
 <?php
 include_once 'conn.php';
 include_once 'ValidtionEmail.php';
@@ -12,6 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_POST['email'],
             $_POST['password']
         );
+
+
+
+        
         
         if ($user->save()) {
             header('Location: index.php?success=1'); 
@@ -44,23 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         <button type="submit">Save</button> 
     </form>
-
-    <form action="" method="POST">
-    <label for="email">Email</label>
-        <input type="email" name="email1" id="email" required>
-        
-        <label for="password">Password</label>
-        <input type="password" name="password1" id="password" required>
-        
-        <button type="submit1">Save</button>
-
-
-
-    </form>
     
 </body>
 </html>
-
-
-
-

@@ -1,7 +1,7 @@
 <?php
 class Database {
     private static $host = "localhost";
-    private static $db = "testphp";
+    private static $db = "game_store_v1";
     private static $username = "root";
     private static $password = "";
     private static $driver = "mysql";    
