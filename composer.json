@@ -1,0 +1,16 @@
+{
+    "name": "vendor/game-store",
+    "description": "autoload",
+    "autoload": {
+        "psr-4": {
+            "Vendor\\GameStore\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "hamzaelboukri",
+            "email": "hamzaelboukri01@gmail.com"
+        }
+    ],
+    "require": {}
+}

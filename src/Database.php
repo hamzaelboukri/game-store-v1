@@ -1,4 +1,7 @@
 <?php
+namespace Vendor\GameStore;
+use PDO; 
+
 class Database {
     private static $host = "localhost";
     private static $db = "game_store_v1";
@@ -32,5 +35,4 @@ class Database {
 
 
 
-?>
 
