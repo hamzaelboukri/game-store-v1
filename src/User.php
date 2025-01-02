@@ -1,64 +1,61 @@
 <?php
 namespace Vendor\GameStore;
+use PDO;
 
 class User {
     private $email;
     private $password;
+    private $role;
 
     public function __construct($email, $password) {
         $this->email = filter_var($email, FILTER_VALIDATE_EMAIL);
+      
         $this->password = password_hash($password, PASSWORD_BCRYPT);
+        $this->role = 'client'; 
     }
 
     public function save() {
         try {
             $db = Database::getConnection();
-            $stmt = $db->prepare("INSERT INTO users (email, password) VALUES (:email, :password)");
+            $stmt = $db->prepare("INSERT INTO users (email, password, role) VALUES (:email, :password, :role)");
 
             return $stmt->execute([
                 ':email' => $this->email,
-                ':password' => $this->password
+                ':password' => $this->password,
+                ':role' => $this->role
             ]);
-        } catch (PDOException $e) {
-           
+        } catch (\PDOException $e) {
             error_log($e->getMessage());
-            return false;
+           
         }
     }
 
-    public static function validateLogin() {
+    public static function validateLogin($email, $password) {
         try {
             $db = Database::getConnection();
             
-            if ($_SERVER["REQUEST_METHOD"] === "POST") {
-                $email = $_POST['email1'] ?? null;
-                $password = $_POST['password1'] ?? null;
+            $stmt = $db->prepare("SELECT * FROM users WHERE email = :email AND deleted_at IS NULL");
+            $stmt->execute([':email' => $email]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                if (!$email || !$password) {
-                    return false; 
-                }
-
-                $sql = "SELECT * FROM users WHERE email = :email";
-                $stmt = $db->prepare($sql);
-                $stmt->execute([':email' => $email]);
-                $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                if ($user && password_verify($password, $user['password'])) {
-                    if ($user['role'] === 'user') {
-                        header('Location: user_page.php');
-                        exit;
-                    } elseif ($user['role'] === 'admin') {
-                        header('Location: admin_page.php');
-                        exit;
-                    }
-                }
+            if ($user && password_verify($password, $user['password'])) {
+                session_start();
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['role'] = $user['role'];
+                
+                return $user['role'];
             }
-
-            return false; 
-        } catch (PDOException $e) {
-           
-            error_log($e->getMessage());
             return false;
+        } catch (\PDOException $e) {
+            error_log($e->getMessage());
+           
         }
+    }
+
+    public static function logout() {
+        session_start();
+        session_destroy();
+        header('Location: index.php');
+        exit;
     }
 }
