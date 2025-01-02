@@ -4,8 +4,6 @@ use PHPMailer\PHPMailer\Exception;
 require 'vendor/autoload.php';
 
 
-
-
 class sendEmail{
     private $mailer;
     public function __construct() {

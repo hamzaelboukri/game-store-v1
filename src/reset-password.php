@@ -45,7 +45,7 @@ class ResetPassword {
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$password_hash, $email]);
 
-        // Mark token as used
+        // token
         $sql = "UPDATE password_reset SET used = 1 
                 WHERE email = ? AND token_hash = ?";
         $stmt = $this->db->prepare($sql);
