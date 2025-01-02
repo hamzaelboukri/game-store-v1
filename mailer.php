@@ -15,8 +15,8 @@ class sendEmail{
         $this->mailer->isSMTP();
         $this->mailer->Host = 'smtp.gmail.com';
         $this->mailer->SMTPAuth = true;
-        $this->mailer->Username = getenv('SMTP_USER');
-        $this->mailer->Password = getenv('SMTP_PASS');
+        $this->mailer->Username = getenv('hamzaelboukri01@gmail.com');
+        $this->mailer->Password = getenv('phpmailer');
         $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $this->mailer->Port = 587;      
     }
@@ -25,7 +25,7 @@ class sendEmail{
         try {
             $resetLink = "http://yourdomain.com/reset-password.php?token=" . $token;
             
-            $this->mailer->setFrom('elboukrihamza29@gmail.com');
+            $this->mailer->setFrom('hamzaelboukri01@gmail.com');
             $this->mailer->addAddress($email);
             $this->mailer->isHTML(true);
             $this->mailer->Subject = 'Password Reset Request';
