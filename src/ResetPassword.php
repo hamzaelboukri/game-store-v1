@@ -60,7 +60,19 @@ public function updetpass($eamil,$token ,$new_password)   {
     if (!ValidtionToken($email, $token_hash)) {
         return false ;
       
-    }    
+    } 
+    
+    $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
+        
+    $sql = "UPDATE users SET password = ? WHERE email = ?";
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute([$password_hash, $email]);
+
+    // Mark token as used
+    $sql = "UPDATE password_reset SET used = 1 
+            WHERE email = ? AND token_hash = ?";
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute([$email, hash("sha256", $token)]);
 }
 }
 ?>
