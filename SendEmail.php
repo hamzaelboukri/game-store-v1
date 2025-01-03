@@ -1,7 +1,8 @@
 <?php
+require 'vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-require 'vendor/autoload.php';
+
 
 
 class SendEmail{
@@ -23,7 +24,7 @@ class SendEmail{
 
     public function sendResetEmail($email, $token) {
         try {
-            $resetLink = "http://hamzaelboukri01@gmail.com/reset-password.php?token=" . $token;
+            $resetLink = "http://localhost/game%20store%20v1//reset-password.php?token=" . $token;
             
             $this->mailer->setFrom('hamzaelboukri01@gmail.com');
             $this->mailer->addAddress($email);
