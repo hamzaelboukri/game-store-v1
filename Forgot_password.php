@@ -3,6 +3,7 @@
 require 'vendor/autoload.php';
 use Vendor\GameStore\Database;
 use Vendor\GameStore\ResetPassword; 
+use Vendor\GameStore\SendEmail;
 
 session_start();
 
