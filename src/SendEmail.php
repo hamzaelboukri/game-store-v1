@@ -1,7 +1,10 @@
 <?php
-require 'vendor/autoload.php';
+namespace Vendor\GameStore;
+// require 'vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+
+use PDO;
 
 
 
