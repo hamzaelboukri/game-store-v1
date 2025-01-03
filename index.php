@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
             <form method="POST" action="">
                 <input type="email" placeholder="Enter your email" name="email1" required>
                 <input type="password" placeholder="Enter your password" name="password1" required>
-                <a href="forgetpass.php">Forgot password?</a>
+                <a href="Forgot_password.php">Forgot password?</a>
                 <input type="hidden" name="login" value="1">
                 <button type="submit" class="button">Login</button>
             </form>

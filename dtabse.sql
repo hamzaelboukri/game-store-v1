@@ -28,7 +28,7 @@ CREATE TABLE orders (
     user_id INT NOT NULL,
     total FLOAT NOT NULL,
     status ENUM('pending', 'completed', 'canceled') DEFAULT 'pending',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP, 
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
