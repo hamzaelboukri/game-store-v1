@@ -3,7 +3,7 @@
     "description": "autoload",
     "autoload": {
         "psr-4": {
-            "Vendor\\GameStore\\": "src/"
+             "Vendor\\GameStore\\": "src/"
         }
     },
     "authors": [

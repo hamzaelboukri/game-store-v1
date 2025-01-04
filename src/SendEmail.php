@@ -1,35 +1,39 @@
 <?php
 namespace Vendor\GameStore;
-// require 'vendor/autoload.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-use PDO;
-
-
-
-class SendEmail{
+class SendEmail {
     private $mailer;
+    
     public function __construct() {
-    $this->mailer=new PHPMailer(true);
-    $this->stepMailer();
-        
+        $this->mailer = new PHPMailer(true);
+        $this->setupMailer();
     }
-    public function stepMailer(){
-        $this->mailer->isSMTP();
-        $this->mailer->Host = 'smtp.gmail.com';
-        $this->mailer->SMTPAuth = true;
-        $this->mailer->Username = getenv('hamzaelboukri01@gmail.com');
-        $this->mailer->Password = getenv('phpmailer');
-        $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $this->mailer->Port = 587;      
+ 
+    private function setupMailer() {
+        try {
+            $this->mailer->isSMTP();
+            $this->mailer->Host = 'smtp.gmail.com';
+            $this->mailer->SMTPAuth = true;
+            $this->mailer->Username = 'hamzaelboukri01@gmail.com';
+            $this->mailer->Password = 'kwbf vohy toxo ydnu'; 
+            $this->mailer->SMTPSecure = 'tls';
+            $this->mailer->Port = 587;
+            echo "test";
+        } catch (Exception $e) {
+            error_log("Mailer setup failed: " . $e->getMessage());
+            throw new Exception("Email setup failed");
+        }
     }
 
     public function sendResetEmail($email, $token) {
         try {
-            $resetLink = "http://localhost/game%20store%20v1//reset-password.php?token=" . $token;
+            $resetLink = "http://localhost/game%20store%20v1/Reset_Password.php?token=" . $token . "&email=" . urlencode($email);
             
-            $this->mailer->setFrom('hamzaelboukri01@gmail.com');
+            $this->mailer->clearAddresses(); 
+            $this->mailer->setFrom('hamzaelboukri01@gmail.com', 'Game Store');
             $this->mailer->addAddress($email);
             $this->mailer->isHTML(true);
             $this->mailer->Subject = 'Password Reset Request';
@@ -47,11 +51,4 @@ class SendEmail{
             return false;
         }
     }
-
-
-
 }
-
-
-
-?>
