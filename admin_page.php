@@ -2,16 +2,9 @@
 require 'vendor/autoload.php';
 use Vendor\GameStore\Account;
 
-$accounts = Account::getAllAccounts();
-var_dump ($accounts)
+$accounts = Account::getAccounts();
+// var_dump ($accounts);
 ?>
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,10 +30,6 @@ var_dump ($accounts)
         </aside>
 
         <!-- Main Content -->
-        <main class="main-content">
-            <header class="header">
-                <h1>Welcome to the Dashboard</h1>
-            </header>
 
             <main class="main-content">
             <header class="header">
@@ -56,8 +45,7 @@ var_dump ($accounts)
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($accounts as $account): 
-                        var_dump ($accounts) ?>
+                    <?php foreach ($accounts as $account):?>
                         <?php echo $account->renderRow(); ?>
                     <?php endforeach; ?>
                 </tbody>

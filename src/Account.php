@@ -1,7 +1,6 @@
 <?php
-namespace Account;
+namespace Vendor\GameStore;
 
-use Vendor\GameStore\Database;
 
 class Account {
     private $id;
@@ -9,7 +8,7 @@ class Account {
     private $STATUSE;
     private $Delete_at;
 
-    public function __construct($id , $email,$STATUSE,$Delete_at) {
+    public function __construct($id , $email , $STATUSE , $Delete_at) {
         $this->id = $id; 
         $this->email = $email;
         $this->STATUSE = $STATUSE;
@@ -23,7 +22,7 @@ class Account {
          
     }   
 
-     public function  getteEmail(){
+     public function  geteEmail(){
    return $this-> $email;
 
     }
@@ -46,24 +45,27 @@ public function __destruct()
 }
 
 public function renderRow() {
-    $statusButton = $this->status === 'ACTIVE' ? 
-        "<button class='btn-deactivate' onclick='updateStatus($this->id, \"desective\")'>Deactivate</button>" :
-        "<button class='btn-activate' onclick='updateStatus($this->id, \"ACTIVE\")'>Activate</button>";
+    $STATUSEButton = $this->STATUSE === 'ACTIVE' ? 
+        "<button class='btn-deactivate' onclick='updateSTATUSE($this->id, \"desective\")'>Deactivate</button>" :
+        "<button class='btn-activate' onclick='updateSTATUSE($this->id, \"ACTIVE\")'>Activate</button>";
 
     return "<tr>
                 <td>$this->email</td>
-                <td>$this->role</td>
-                <td>$this->status</td>
+               
+                <td>$this->STATUSE</td>
                 <td>
-                    $statusButton
+                    $STATUSEButton
+
+                    
                     <a href='/accounts/edit.php?id=$this->id'>Edit</a>
                     <a href='/accounts/delete.php?id=$this->id'>Delete</a>
                 </td>
             </tr>";
+            var_dump($STATUSEButton);
 }
 
 
-public static function getAllAccounts() {
+public static function getAccounts() {
     try {
         $db = Database::getConnection();
         $stmt = $db->prepare("SELECT * FROM users WHERE deleted_at IS NULL");
@@ -73,7 +75,7 @@ public static function getAllAccounts() {
         $accountObjects = [];
         foreach ($accounts as $account) {
             $accountObjects[] = new Account(
-        
+                $account['id'],
                 $account['email'],
                 $account['STATUSE'],
                 $account['deleted_at']
@@ -86,4 +88,5 @@ public static function getAllAccounts() {
         return [];
     }
 }
+
 }
