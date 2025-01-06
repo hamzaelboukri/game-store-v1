@@ -43,17 +43,20 @@ class ResetPassword {
     }
 
     public function updatePassword($email, $token, $new_password) {
-        if (!$this->validateToken($email, $token)) {
-            return false;
-        }
+            // if (!$this->validateToken($email, $token)) {
+            //     return false;
+            // }
         
-        $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
+        $password_hash = password_hash($new_password, PASSWORD_BCRYPT);
+        var_dump($password_hash);// hadi  kanpassi lih chno bghina nchof f request n9dro ndiro hka $_REQUEST bach nochof request kamla
         
         $sql = "UPDATE users 
-                SET password = ?,
+                SET password =?,
                     reset_token = NULL,
                     reset_token_expiry = NULL 
                 WHERE email = ?";
+
+        // print_r($sql);
                 
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([$password_hash, $email]);

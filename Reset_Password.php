@@ -1,15 +1,22 @@
 <?php
 require 'vendor/autoload.php';
 use Vendor\GameStore\Database;
+use Vendor\GameStore\ResetPassword;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $token = $_POST['token'];
-    $password = $_POST['password'];
+    $password = $_POST['new-password'];
     
     $resetPassword = new ResetPassword(Database::getConnection());
+    
     if ($resetPassword->updatePassword($email, $token, $password)) {
-        header('Location: index.php?msg=password-updated');
+       
+        $_SESSION['success'] = "success";
+        header('Location: index.php');
+        exit(); 
+    } else {
+        $_SESSION['error'] = "error";
     }
 }
 ?>
@@ -27,15 +34,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <!-- Password Reset Form -->
         <div class="form-wrapper">
             <h2>Reset Password</h2>
-            <form action="reset-password.php" method="POST">
-                <label for="new-password">New Password</label>
-                <input type="password" id="new-password" name="new-password" placeholder="Enter new password" required>
-
-                <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm new password" required>
-
-                <button type="submit" class="btn">Reset Password</button>
-            </form>
+            <form action="Reset_Password.php" method="POST">
+    <input type="hidden" name="email" value="<?php echo htmlspecialchars($_GET['email'] ?? ''); ?>">
+    <input type="hidden" name="token" value="<?php echo htmlspecialchars($_GET['token'] ?? ''); ?>">
+    <input type="password" name="new-password" placeholder="Enter new password" required>
+    <button type="submit" class="button">Reset Password</button>
+</form>
+          
         </div>
     </div>
 </body>
