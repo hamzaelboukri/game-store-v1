@@ -1,52 +1,51 @@
 <?php
-namespace account ;
- class account {
+namespace account;
 
+use Vendor\GameStore\Database;
+
+class Account {
     private $email;
     private $STATUSE;
+    private $Delete_at;
 
-    public function __construct(){
-         $this->email = $email;
-         $this ->STATUSE = $STATUSE;
-    
-    }
-
-    public function getemail(){
-       return $this-> $email;
-
+    public function __construct() {
+        $this->email = $email;
+        $this->STATUSE = $STATUSE;
+        $this->STATUSE = $Delete_at;
 
     }
-    public function aficher (){
+
+
+
+
+
+
+
+
+
+    public function aficher() {
         try {
-
             $db = Database::getConnection();
-            $sql= $stmt = $db->prepare(" SELECT * FROM users (email, STATUSE, ) VALUES (:email, :STATUSE)");
-
-            return $stmt->execute ([
-                ':email' =>$this->email,
-                'STATUSE' => $this->STATUSE
-            ]);
-            $users = $stmt->fetchAll();//2D array
-
+            $sql = "SELECT email, STATUSE FROM users";
+            $stmt = $db->prepare($sql);
+            $stmt->execute();
+            
+            $accounts = $stmt->fetchAll();//2D array
+            
             $data = [];
-            foreach ($products as $product) {
-                $data[] = new Product($product['id'], $product['name'], $product['description'], $product['price'], $product['quantity']);
+            foreach ($accounts as $account) {
+                // Store each account's data in array
+                $data[] = [
+                    'email' => $account['email'],
+                    'STATUSE' => $account['STATUSE']
+                ];
             }
-            return $data;//[Product, Product, Product, Product]
+            
+            return $data;
 
-        }catch (\PDOException $e) {
+        } catch (\PDOException $e) {
             error_log($e->getMessage());
-           
+            return [];
         }
-        
-
-
-
+    }
 }
-
-
-
-
- }
-
-?>
