@@ -28,7 +28,7 @@ $accounts = Account::getAccounts();
                 <ul>
                 <li><a href="#settings">Home</a></li>
                     <li><a href="#overview">les account</a></li>
-                    <li><a href="./ADDgames.php">les order</a></li>
+                    <li><a href="ADDgames.php">les order</a></li>
                     <li><a href="#settings">Settings</a></li>
                     <li><a href="#support">Support</a></li>
                 </ul>

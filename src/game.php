@@ -1,4 +1,6 @@
 <?php
+namespace Vendor\GameStore;
+
 
 class game{
   
