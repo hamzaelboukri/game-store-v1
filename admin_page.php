@@ -1,9 +1,10 @@
 <?php
 require 'vendor/autoload.php';
 use Vendor\GameStore\Account;
-if (Account::handleStatusUpdate()) {
-    header('Location: ' . $_SERVER['PHP_SELF']);
-    exit;
+if (isset($_POST['id']) && isset($_POST['status'])) {
+    Account::updateStatus($_POST['id'], $_POST['status']);
+    header('Location: admin_page.php');
+    exit();
 }
 
 $accounts = Account::getAccounts();
@@ -15,7 +16,7 @@ $accounts = Account::getAccounts();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -40,12 +41,14 @@ $accounts = Account::getAccounts();
             <header class="header">
                 <h1>Account Management</h1>
             </header>
-            
+             <div>
             <table>
                 <thead>
                     <tr>
                         <th>Email</th>
                         <th>Status</th>
+                        <th>action</th>
+
                       
                     </tr>
                 </thead>
@@ -55,6 +58,7 @@ $accounts = Account::getAccounts();
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            </div>
         </main>
     </div>
             

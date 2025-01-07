@@ -1,98 +1,56 @@
-<?php
-namespace Vendor\GameStore;
-
-class Account {
+ <?php
+ class Account {
     private $id;
     private $email;
-    private $STATUSE;
+    private $status; 
     private $Delete_at;
 
-    public function __construct($id, $email, $STATUSE, $Delete_at) {
+    public function __construct($id, $email, $status, $Delete_at) {
         $this->id = $id;
         $this->email = $email;
-        $this->STATUSE = $STATUSE;
+        $this->status = $status;
         $this->Delete_at = $Delete_at;
     }
-
-    public function updateStatus($newStatus) {
-        try {
-            $db = Database::getConnection();
-            $stmt = $db->prepare("UPDATE users SET STATUSE = ? WHERE id = ?");
-            return $stmt->execute([$newStatus, $this->id]);
-        } catch (\PDOException $e) {
-            error_log($e->getMessage());
-            return false;
-        }
-    }
-
+    
     public function renderRow() {
         return "<tr>
-            <td>{$this->email}</td>
-            <td>{$this->STATUSE}</td>
-            <td>
-                <form method='POST' style='display: inline;'>
-                    <input type='hidden' name='account_id' value='{$this->id}'>
-                    <input type='hidden' name='new_status' value='" . 
-                    ($this->STATUSE === 'ACTIVE' ? 'desective' : 'ACTIVE') . "'>
-                    <button type='submit' class='" . 
-                    ($this->STATUSE === 'ACTIVE' ? 'deactivate-btn' : 'activate-btn') . "'>
-                    " . ($this->STATUSE === 'ACTIVE' ? 'Deactivate' : 'Activate') . "
-                    </button>
-                </form>
-            </td>
-        </tr>";
+                    <td>{$this->email}</td>
+                    <td>{$this->status}</td>
+                    <td>
+                        <form method='POST' style='display: inline;'>
+                            <input type='hidden' name='id' value='{$this->id}'>
+                            <input type='hidden' name='status' value='" . ($this->status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE') . "'>
+                            <button type='submit' class='btn " . 
+                            ($this->status === 'ACTIVE' ? 'btn-danger' : 'btn-success') . " btn-sm'>" . 
+                            ($this->status === 'ACTIVE' ? 'Deactivate' : 'Activate') . "</button>
+                        </form>
+                    </td>
+                </tr>";
     }
 
     public static function getAccounts() {
-        try {
-            $db = Database::getConnection();
-            $stmt = $db->prepare("SELECT * FROM users WHERE deleted_at IS NULL");
-            $stmt->execute();
-            $accounts = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-            
-            $accountObjects = [];
-            foreach ($accounts as $account) {
-                $accountObjects[] = new Account(
-                    $account['id'],
-                    $account['email'],
-                    $account['STATUSE'],
-                    $account['deleted_at']
-                );
-            }
-            
-            return $accountObjects;
-        } catch (\PDOException $e) {
-            error_log($e->getMessage());
-            return [];
-        }
-    }
-
-    public static function handleStatusUpdate() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['account_id']) && isset($_POST['new_status'])) {
-            $account = self::getAccountById($_POST['account_id']);
-            if ($account) {
-                return $account->updateStatus($_POST['new_status']);
-            }
-        }
-        return false;
-    }
-
-    private static function getAccountById($id) {
-        try {
-            $db = Database::getConnection();
-            $stmt = $db->prepare("SELECT * FROM users WHERE id = ? AND deleted_at IS NULL");
-            $stmt->execute([$id]);
-            $account = $stmt->fetch(\PDO::FETCH_ASSOC);
-            
-            return $account ? new Account(
+        $db = Database::getConnection();
+        $stmt = $db->prepare("SELECT * FROM users WHERE deleted_at IS NULL");
+        $stmt->execute();
+        $accounts = [];
+        
+        foreach ($stmt->fetchAll(\PDO::FETCH_ASSOC) as $account) {
+            $accounts[] = new Account(
                 $account['id'],
                 $account['email'],
-                $account['STATUSE'],
+                $account['status'], 
                 $account['deleted_at']
-            ) : null;
-        } catch (\PDOException $e) {
-            error_log($e->getMessage());
-            return null;
+            );
         }
+        return $accounts;
+    }
+
+    public static function updateStatus($id, $status) {
+        $db = Database::getConnection();
+        $stmt = $db->prepare("UPDATE users SET status = ? WHERE id = ?"); 
+        return $stmt->execute([$status, $id]);
     }
 }
+
+
+?>
