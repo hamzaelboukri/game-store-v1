@@ -30,6 +30,9 @@ CREATE TABLE products (
     deleted_at DATETIME DEFAULT NULL
 );
 
+ALTER table product 
+ MODIFY image_url LONGBLOB;
+
 CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,

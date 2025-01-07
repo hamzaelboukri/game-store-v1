@@ -1,9 +1,9 @@
 {
     "name": "vendor/game-store",
     "description": "autoload",
-    "autoload": {
+   "autoload": {
         "psr-4": {
-             "Vendor\\GameStore\\": "src/"
+            "Vendor\\GameStore\\": "src/"
         }
     },
     "authors": [
@@ -16,3 +16,5 @@
         "phpmailer/phpmailer": "^6.9"
     }
 }
+
+

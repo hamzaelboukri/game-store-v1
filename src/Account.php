@@ -1,4 +1,6 @@
- <?php
+<?php
+namespace Vendor\GameStore;
+
  class Account {
     private $id;
     private $email;
@@ -19,10 +21,10 @@
                     <td>
                         <form method='POST' style='display: inline;'>
                             <input type='hidden' name='id' value='{$this->id}'>
-                            <input type='hidden' name='status' value='" . ($this->status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE') . "'>
+                            <input type='hidden' name='status' value='" . ($this->status === 'INACTIVE' ? 'ACTIVE' : 'INACTIVE') . "'>
                             <button type='submit' class='btn " . 
-                            ($this->status === 'ACTIVE' ? 'btn-danger' : 'btn-success') . " btn-sm'>" . 
-                            ($this->status === 'ACTIVE' ? 'Deactivate' : 'Activate') . "</button>
+                            ($this->status === 'INACTIVE' ? 'btn-danger' : 'btn-success') . " btn-sm'>" . 
+                            ($this->status === 'INACTIVE' ? 'Deactivate' : 'Activate') . "</button>
                         </form>
                     </td>
                 </tr>";
