@@ -1,6 +1,7 @@
 <?php
 
 require 'vendor/autoload.php';
+use Vendor\GameStore\Productgame;
 use Vendor\GameStore\game;
 use Vendor\GameStore\Database;
 
