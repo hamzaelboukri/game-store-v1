@@ -31,7 +31,7 @@ class game{
     public function getImage(){
         return $this->$image;
     }
-    public function getPrice(){
+    public function getPrice(){ 
         return $this ->$price;
         
     }
@@ -42,30 +42,14 @@ class game{
     }
 
 
-    public static function addGame(){
-        try {
-            $db=Database::getConnection() ;
-              $stm = $db->prepare(" INSERT INTO products ( Name,describtion ,image,price,stock )VALUES 
-              ( Name,describtion ,image,price,stock ) ");
-              $stm= $db-excute([
-                ':Name'=>$Name,
-              ':describtion'=>$describtion,
-                 ':image'=>$image,
-                 ':price'=>$price,
-                 ':stock '=>$stock,
-
-              ]);
     
-        } catch (\Throwable $th) {
-            
-        }
 
      
 
 
     }
     
-}
+
 
 
 ?>

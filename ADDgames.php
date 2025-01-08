@@ -6,25 +6,23 @@ use Vendor\GameStore\Database;
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
     $name = $_POST['name'];
     $description = $_POST['description'];
     $price = $_POST['price'];
     $stock = $_POST['stock'];
-    
-    
+
     if (isset($_FILES['image'])) {
         $imageFile = $_FILES['image'];
         $imagePath = Game::uploadImage($imageFile);
-        
+
         if ($imagePath) {
-           
             Game::addGame($name, $description, $imagePath, $price, $stock);
         } else {
             echo "Image upload failed!";
         }
     }
 }
+
 ?>
 
 
@@ -72,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="mb-3">
                 <label for="image" class="form-label">Upload Image</label>
-                <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                <input type="file" class="form-control" id="image" name="image"  accept="image/*" required>
             </div>
             <div class="mb-3">
                 <label for="price" class="form-label">Price</label>
