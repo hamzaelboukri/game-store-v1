@@ -43,12 +43,33 @@ $games = Productgame::getGames();
                             <th>Image</th>
                             <th>Price</th>
                             <th>Stock</th>
+                            <th>Actions</th> 
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($games as $game): ?>
-                            <?php echo Productgame::renderGameCard($game); ?>
-                            <?php var_dump($game->image); // Debug the image path ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($game->name); ?></td>
+                                <td><?php echo htmlspecialchars($game->description); ?></td>
+                                <td>
+                                    <?php if ($game->image): ?>
+                                        <img src="<?php echo htmlspecialchars($game->image); ?>" alt="Game Image" width="100">
+                                    <?php else: ?>
+                                        No Image
+                                    <?php endif; ?>
+                                </td>
+                                <td><?php echo htmlspecialchars($game->price); ?></td>
+                                <td><?php echo htmlspecialchars($game->stock); ?></td>
+                                <td>
+                                   
+                                    <a href="../modifer/editegame.php?id=<?php echo $game->id; ?>" class="btn btn-primary btn-sm">Edit</a>
+                                  
+                                    <form action="../delete/deletegame.php" method="POST" style="display:inline;">
+                                        <input type="hidden" name="id" value="<?php echo $game->id; ?>">
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this game?');">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
