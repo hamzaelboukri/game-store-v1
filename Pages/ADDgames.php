@@ -1,6 +1,6 @@
 <?php
 
-require 'vendor/autoload.php';
+require '../vendor/autoload.php';
 use Vendor\GameStore\Productgame;
 use Vendor\GameStore\game;
 use Vendor\GameStore\Database;
@@ -14,10 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_FILES['image'])) {
         $imageFile = $_FILES['image'];
-        $imagePath = Game::uploadImage($imageFile);
+        $imagePath = Productgame::uploadImage($imageFile);
 
         if ($imagePath) {
-            Game::addGame($name, $description, $imagePath, $price, $stock);
+            Productgame::addGame($name, $description, $imagePath, $price, $stock);
         } else {
             echo "Image upload failed!";
         }
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Add Product</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
 

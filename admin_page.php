@@ -49,7 +49,6 @@ $accounts = Account::getAccounts();
                         <th>Status</th>
                         <th>action</th>
 
-                      
                     </tr>
                 </thead>
                 <tbody>

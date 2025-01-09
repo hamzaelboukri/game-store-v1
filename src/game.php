@@ -1,55 +1,40 @@
 <?php
 namespace Vendor\GameStore;
 
+class Game {
+    public $name;
+    public $description;
+    public $image;
+    public $price;
+    public $stock;
 
-class game{
-  
-    private $Name;
-    private $describtion;
-    private $image;
-    private $price;
-    private $stock;
-
-
-    public function __consterct($Name,$describtion ,$image,$price,$stock, ){
-         $this->Name=$Name;
-         $this->describtion=$describtion;
-         $this->image=$image;
-         $this->price=$price;
-         $this->stock=$stock;
-    }
-
-    public function getName(){
-
-        return $this->$Name;
-
-    }
-    public function getDescribtion(){
-        return $this->$describtion;
-    }
-
-    public function getImage(){
-        return $this->$image;
-    }
-    public function getPrice(){ 
-        return $this ->$price;
-        
-    }
-
-    public function getStock(){
-        return $this ->$stock;
-        
+    public function __construct($name, $description, $image, $price, $stock) {
+        $this->name = $name;
+        $this->description = $description;
+        $this->image = $image;
+        $this->price = $price;
+        $this->stock = $stock;
     }
 
 
-    
+    // public function getName() {
+    //     return $this->name;
+    // }
 
-     
+    // public function getDescription() {
+    //     return $this->description;
+    // }
 
+    // public function getImage() {
+    //     return $this->image;
+    // }
 
-    }
-    
+    // public function getPrice() {
+    //     return $this->price;
+    // }
 
-
-
+    // public function getStock() {
+    //     return $this->stock;
+    // }
+}
 ?>

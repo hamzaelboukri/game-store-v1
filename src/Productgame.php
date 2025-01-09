@@ -16,7 +16,6 @@ public static function uploadImage($imageFile) {
 }
 
 
-
 public static function addGame($name, $description, $image, $price, $stock) {
     try {
         $db = Database::getConnection();
@@ -31,59 +30,47 @@ public static function addGame($name, $description, $image, $price, $stock) {
             ':price' => $price,
             ':stock' => $stock,
         ]);
-        echo "Produit ajouté avec succès dans la base de données !";
+        
     } catch (\PDOException $e) {
        
-        echo "Erreur lors de l'ajout du produit : " . $e->getMessage();
+        $e->getMessage();
     }
 }
 
-private function getAllGames(): array {
-    $stmt = $this->db->query("SELECT * FROM products WHERE deleted_at IS NULL ORDER BY id DESC");
+
+public static function getGames() {
+    $db = Database::getConnection();
+    $stmt = $db->prepare("SELECT * FROM products WHERE deleted_at IS NULL ORDER BY id DESC");
+    $stmt->execute();
     $games = [];
-    while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-        $games[] = Game::fromDatabaseRow($row);
+    
+    foreach ($stmt->fetchAll(\PDO::FETCH_ASSOC) as $game) {
+        $games[] = new Game(
+            $game['name'],
+            $game['image_url'], 
+            $game['description'],
+            $game['price'], 
+            $game['stock']
+        );
     }
     return $games;
 }
 
-private function renderGames(array $games): string {
-    $output = '<div class="games-container">';
-    
-    foreach ($games as $game) {
-        $output .= $this->renderGameCard($game);
-    }
-    
-    return $output . '</div>';
+
+
+public static function renderGameCard($game) {
+    return "
+    <tr>
+        <td>{$game->name}</td>
+        <td>{$game->description}</td>
+        <td><img src='{$game->image}' alt='Game Image' style='width: 100px; height: auto;'></td>
+        <td>{$game->price}</td>
+        <td>{$game->stock}</td>
+    </tr>";
 }
 
-private function renderGameCard(Game $game): string {
-    return sprintf(
-        '<div class="game-card">
-            <img src="%s" alt="%s" class="game-image">
-            <div class="game-details">
-                <h3>%s</h3>
-                <p>%s</p>
-                <div class="game-meta">
-                    <span class="price">$%.2f</span>
-                    <span class="stock">Stock: %d</span>
-                    <button class="btn btn-primary add-to-cart" data-game-id="%d">
-                        Add to Cart
-                    </button>
-                </div>
-            </div>
-        </div>',
-        htmlspecialchars($game->getImageUrl()),
-        htmlspecialchars($game->getName()),
-        htmlspecialchars($game->getName()),
-        htmlspecialchars($game->getDescription()),
-        $game->getPrice(),
-        $game->getStock(),
-        $game->getId()
-    );
 }
 
 
 
-}
 ?>
